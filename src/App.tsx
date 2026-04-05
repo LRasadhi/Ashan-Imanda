@@ -126,13 +126,13 @@ export default function App() {
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden bg-white">
         {/* Corner flowers - smaller on mobile */}
         <img src={`${import.meta.env.BASE_URL}left.png`} alt="" className="absolute left-0 w-36 md:w-64 lg:w-80 pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'translate(-100px, -200px) scale(1.5)' }} />
+          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'translate(-50px, -200px) scale(2.0)' }} />
         <img src={`${import.meta.env.BASE_URL}left.png`} alt="" className="absolute right-0 w-36 md:w-64 lg:w-80 pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'scaleX(-1) translate(-100px, 200px) scale(1.5)' }} />
+          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'scaleX(-1) translate(-50px, 200px) scale(2.0)' }} />
         <img src={`${import.meta.env.BASE_URL}Flower-left-up.png`} alt="" className="absolute right-0 w-48 md:w-96 lg:w-[2000px] pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'scaleX(-1) translate(-100px, -200px) scale(2.0)' }} />
+          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'scaleX(-1) translate(-10px, -200px) scale(3.0)' }} />
         <img src={`${import.meta.env.BASE_URL}Flower-left-up.png`} alt="" className="absolute left-0 w-48 md:w-96 lg:w-[2000px] pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'translate(-150px, 100px) scale(2.0)' }} />
+          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'translate(-10px, 100px) scale(3.0)' }} />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
