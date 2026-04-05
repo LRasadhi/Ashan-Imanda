@@ -125,14 +125,14 @@ export default function App() {
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden bg-white">
         {/* Corner flowers - smaller on mobile */}
-        <img src="/left.png" alt="" className="absolute left-0 w-36 md:w-64 lg:w-80 pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'translate(-10px, -10px)' }} />
-        <img src="/left.png" alt="" className="absolute right-0 w-36 md:w-64 lg:w-80 pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'scaleX(-1) translate(-10px, -10px)' }} />
-        <img src="/Flower-left-up.png" alt="" className="absolute right-0 w-48 md:w-96 lg:w-[500px] pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'scaleX(-1) translate(-10px, -10px)' }} />
-        <img src="/Flower-left-up.png" alt="" className="absolute left-0 w-48 md:w-96 lg:w-[500px] pointer-events-none"
-          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'translate(-10px, -10px)' }} />
+        <img src={`${import.meta.env.BASE_URL}left.png`} alt="" className="absolute left-0 w-36 md:w-64 lg:w-80 pointer-events-none"
+          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'translate(-100px, -200px) scale(1.5)' }} />
+        <img src={`${import.meta.env.BASE_URL}left.png`} alt="" className="absolute right-0 w-36 md:w-64 lg:w-80 pointer-events-none"
+          style={{ mixBlendMode: 'multiply', opacity: 0.9, transform: 'scaleX(-1) translate(-100px, 200px) scale(1.5)' }} />
+        <img src={`${import.meta.env.BASE_URL}Flower-left-up.png`} alt="" className="absolute right-0 w-48 md:w-96 lg:w-[2000px] pointer-events-none"
+          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'scaleX(-1) translate(-100px, -200px) scale(2.0)' }} />
+        <img src={`${import.meta.env.BASE_URL}Flower-left-up.png`} alt="" className="absolute left-0 w-48 md:w-96 lg:w-[2000px] pointer-events-none"
+          style={{ mixBlendMode: 'multiply', opacity: 0.08, transform: 'translate(-150px, 100px) scale(2.0)' }} />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -140,8 +140,14 @@ export default function App() {
           transition={{ duration: 1.2 }}
           className="z-10 px-4"
         >
-          <h1 className="font-calligraphy text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold mb-4 md:mb-6 tracking-normal leading-tight">
-            Ashan & Imanda
+          <h1 className="font-calligraphy text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold tracking-normal leading-tight">
+            Ashan
+          </h1>
+          <h1 className="font-calligraphy text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold tracking-normal leading-tight">
+            &
+          </h1>
+          <h1 className="font-calligraphy text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold tracking-normal leading-tight">
+            Imanda
           </h1>
           <p className="font-serif text-sm sm:text-base md:text-xl uppercase tracking-[0.2em] md:tracking-[0.3em] text-text-dark/80 mb-6 md:mb-10">
             We're getting married
@@ -188,15 +194,15 @@ export default function App() {
       </section>
 
       {/* Event Details Card */}
-      <section className="py-16 md:py-24 px-4 md:px-6 relative overflow-hidden"
+      <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-6 relative overflow-hidden"
         style={{
-          backgroundImage: 'url("/floral.png")',
-          backgroundPosition: '33% 50%',
-          backgroundSize: '175%',
+          backgroundImage: `url(${(import.meta as any).env.BASE_URL}floral.png)`,
+          backgroundPosition: '33% 70%',
+          backgroundSize: '200%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: '#FDFBF7'
         }}>
-        <div className="max-w-sm md:max-w-xl mx-auto">
+        <div className="max-w-sm md:max-w-xl mx-auto flex items-center justify-center w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -308,9 +314,9 @@ export default function App() {
       {/* Countdown Timer */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative"
         style={{
-          backgroundImage: 'url("/floral.png")',
-          backgroundPosition: '33% 40%',
-          backgroundSize: '175%',
+          backgroundImage: `url(${(import.meta as any).env.BASE_URL}floral.png)`,
+          backgroundPosition: '33% 70%',
+          backgroundSize: '200%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: '#FDFBF7'
         }}>
