@@ -263,7 +263,7 @@ export default function App() {
               <div className="flex flex-col items-center py-3 md:py-4">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gold/30 flex items-center justify-center mb-2 md:mb-3"
                   style={{ background: 'linear-gradient(135deg, rgba(181,148,16,0.08), rgba(181,148,16,0.02))' }}>
-                  <Heart size={18} className="text-gold" strokeWidth={1.5} />
+                  <img src={`${(import.meta as any).env.BASE_URL}ring.png`} alt="ring" className="w-5 h-5 object-contain" style={{ transform: 'scale(1.5)' }} />
                 </div>
                 <span className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-gold/70 mb-1 md:mb-2">Poruwa Ceremony</span>
                 <p className="text-base md:text-xl font-serif">9:12 AM</p>
