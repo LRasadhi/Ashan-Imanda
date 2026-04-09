@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Phone, MapPin, Calendar, Clock, ChevronDown, Heart, MailOpen } from 'lucide-react';
+import { Phone, MapPin, Calendar, Clock, ChevronDown, Heart, MailOpen, Volume2, VolumeX } from 'lucide-react';
 
 const GOLD = "#B59410";
 const CREAM = "#FDFBF7";
@@ -8,6 +8,9 @@ const CREAM = "#FDFBF7";
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  
   const [timeLeft, setTimeLeft] = useState({
     days: 0, hours: 0, minutes: 0, seconds: 0
   });
@@ -29,79 +32,128 @@ export default function App() {
   }, []);
 
   const handleOpenEnvelope = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {});
+    }
     setIsOpened(true);
-    setTimeout(() => setShowContent(true), 1500);
+    setTimeout(() => {
+      setShowContent(true);
+    }, 1400);
   };
 
-  if (!showContent) {
-    return (
-      <div className="h-screen bg-cream flex items-center justify-center overflow-hidden p-4">
-        <AnimatePresence>
-          {!isOpened ? (
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ y: -100, opacity: 0 }}
-              className="relative cursor-pointer group w-full max-w-sm md:max-w-md"
-              onClick={handleOpenEnvelope}
-            >
-              <div className="text-center mb-6">
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="inline-block"
-                >
-                  <MailOpen size={40} className="text-gold mb-3 mx-auto" strokeWidth={1} />
-                </motion.div>
-                <h2 className="font-calligraphy text-3xl md:text-4xl text-gold tracking-normal">You are invited</h2>
-                <p className="text-text-dark/40 text-xs md:text-sm mt-2 font-serif">Tap to open the invitation</p>
-              </div>
-
-              <div className="relative w-full h-[180px] md:h-[260px] bg-white shadow-2xl border border-gold/10 rounded-sm">
-                <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1/2 bg-white border-b border-gold/20 origin-top transition-transform duration-1000 group-hover:bg-ivory" />
-                </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-gold rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-                    <Heart size={18} className="text-white" fill="white" />
-                  </div>
-                </div>
-                <div className="absolute bottom-4 md:bottom-6 left-0 w-full text-center">
-                  <span className="font-calligraphy text-2xl md:text-3xl text-gold/80">Ashan & Imanda</span>
-                </div>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ scale: 1 }}
-              animate={{ scale: 1.2, opacity: 0 }}
-              className="relative w-full max-w-sm md:max-w-md h-[180px] md:h-[260px] bg-white shadow-2xl"
-            >
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                <motion.div
-                  initial={{ y: 0 }}
-                  animate={{ y: -200 }}
-                  transition={{ duration: 1 }}
-                  className="bg-cream p-8 shadow-lg border border-gold/20"
-                >
-                  <h3 className="font-calligraphy text-3xl text-gold">Opening...</h3>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    );
-  }
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !audioRef.current.muted;
+      setIsMuted(audioRef.current.muted);
+    }
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="min-h-screen selection:bg-gold-light selection:text-text-dark bg-cream"
-    >
-      {/* Floating Petals */}
+    <>
+      {/* Audio Element globally rendered so audioRef is available before click */}
+      <audio ref={audioRef} loop>
+        <source src={`${(import.meta as any).env.BASE_URL}music.mp3`} type="audio/mp3" />
+      </audio>
+
+      {!showContent ? (
+        <div className="fixed inset-0 z-50 bg-[#FDFBF7] flex flex-col items-center justify-center overflow-hidden">
+          {/* Gentle floating background particles */}
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  background: 'radial-gradient(circle, rgba(181,148,16,0.15) 0%, rgba(181,148,16,0) 70%)',
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  width: `${Math.random() * 30 + 15}px`,
+                  height: `${Math.random() * 30 + 15}px`,
+                }}
+                animate={{
+                  y: [0, -40, 0],
+                  opacity: [0, 0.8, 0],
+                }}
+                transition={{
+                  duration: Math.random() * 4 + 4,
+                  repeat: Infinity,
+                  delay: Math.random() * 2,
+                }}
+              />
+            ))}
+          </div>
+
+          <AnimatePresence>
+            {!isOpened && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                className="absolute top-[18%] md:top-[12%] left-0 right-0 text-center z-40 pointer-events-none"
+              >
+                <h2 className="font-calligraphy text-3xl md:text-5xl lg:text-6xl text-gold tracking-normal drop-shadow-sm">You are invited</h2>
+                <p className="text-text-dark/50 text-xs md:text-sm mt-2 md:mt-3 font-serif uppercase tracking-[0.3em]">Tap to open</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div
+            className="absolute inset-0 cursor-pointer z-10"
+            onClick={!isOpened ? handleOpenEnvelope : undefined}
+          >
+            <motion.div 
+               animate={isOpened ? { scale: 1.2, opacity: 0 } : { scale: [1, 1.02, 1] }}
+               transition={
+                 isOpened 
+                   ? { duration: 0.8, ease: "easeInOut" }
+                   : { duration: 6, repeat: Infinity, ease: "easeInOut" }
+               }
+               whileHover={!isOpened ? { scale: 1.05 } : undefined}
+               whileTap={!isOpened ? { scale: 0.98 } : undefined}
+               className="w-full h-full"
+            >
+              <img 
+                src={`${(import.meta as any).env.BASE_URL}envelope.png`} 
+                alt="Open Invitation" 
+                className="w-full h-full object-cover" 
+              />
+            </motion.div>
+          </div>
+
+          <AnimatePresence>
+            {isOpened && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="fixed inset-0 bg-white z-[60] pointer-events-none"
+              />
+            )}
+          </AnimatePresence>
+        </div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
+          className="min-h-screen selection:bg-gold-light selection:text-text-dark bg-cream relative"
+        >
+          {/* White Screen Overlay Transition Out */}
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 1.0, ease: "easeOut" }}
+            className="fixed inset-0 bg-white z-[100] pointer-events-none"
+          />
+
+          {/* Mute/Unmute Button */}
+          <button
+            onClick={toggleMute}
+            className="fixed top-4 right-4 z-50 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#e8d48b] to-[#B59410] rounded-full flex items-center justify-center shadow-lg hover:opacity-80 transition-opacity border border-white/30"
+          >
+            {isMuted ? <VolumeX size={18} className="text-white" /> : <Volume2 size={18} className="text-white" />}
+          </button>
+
+          {/* Floating Petals */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
           <div
@@ -389,7 +441,7 @@ export default function App() {
 
       {/* RSVP Section */}
       <section className="py-16 md:py-32 px-4 md:px-6 bg-cream relative overflow-hidden">
-        <div className="max-w-2xl mx-auto text-center relative z-10">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -400,7 +452,7 @@ export default function App() {
             <p className="text-sm md:text-base italic mb-8 md:mb-12 font-serif text-text-dark/40 uppercase">(Regrets only)</p>
 
             {/* Stack vertically on mobile, row on desktop */}
-            <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
+            <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8 mb-12 md:mb-16">
               <a
                 href="tel:0715319761"
                 className="group flex items-center gap-3 md:gap-4 px-6 md:px-10 py-4 md:py-5 bg-white border border-gold/30 rounded-full hover:bg-gold hover:text-white transition-all w-full max-w-[300px] justify-center shadow-md font-serif text-sm md:text-lg"
@@ -416,6 +468,8 @@ export default function App() {
                 <span>IMANDA: 071-0840269</span>
               </a>
             </div>
+
+
           </motion.div>
         </div>
       </section>
@@ -429,6 +483,8 @@ export default function App() {
           <p className="text-text-dark/40 text-xs md:text-sm tracking-[0.3em] uppercase font-serif">May 2026</p>
         </div>
       </footer>
-    </motion.div>
+        </motion.div>
+      )}
+    </>
   );
 }
